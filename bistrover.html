@@ -182,6 +182,12 @@
                 ]),
                 new Patcher("bm2dx.dll", "2021-09-15", [
                     {
+                        name: "SSE4.2 Fix",
+                        patches: [
+                            { offset: 0x28C8B4, off: [0xF3, 0x45, 0x0F], on: [0x90, 0x90, 0x90] },
+                        ],
+                    },
+                    {
                         name: "Bypass lightning monitor error",
                         patches: [
                             { offset: 0x7464A1, off: [0x0f, 0x85], on: [0x90, 0xe9] },
@@ -234,6 +240,13 @@
                                 off: [0x4d, 0x03, 0xc8, 0x49, 0xf7, 0xf1],
                                 on: [0xba, 0x0c, 0x00, 0x00, 0x00, 0x90],
                             },
+                        ],
+                    },
+                    {
+                        name: "Skip CAMERA DEVICE ERROR prompt",
+                        tooltip: "Prevents the CAMERA DEVICE ERROR message from popping up on boot",
+                        patches: [
+                            { offset: 0x75378B, off: [0x84], on: [0x81] },
                         ],
                     },
                     {
@@ -329,6 +342,13 @@
                         patches: [{ offset: 0x4CBBF3, off: [0x74], on: [0xEB] }],
                     },
                     {
+                        name: "Show Lightning Model folder in LDJ",
+                        tooltip: "This folder is normally exclusive to TDJ mode",
+                        patches: [
+                            { offset: 0x4A46DD, off: [0x75, 0x0A], on: [0x90, 0x90] },
+                        ],
+                    },
+                    {
                         name: "Unlock All Songs",
                         patches: [
                             { offset: 0x4C647A, off: [0x32, 0xC0], on: [0xB0, 0x01] },
@@ -370,6 +390,35 @@
                             { offset: 0x3B2768, off: [0x4C, 0xB0, 0x6C, 0x00], on: [0x80, 0x82, 0x19, 0x05] }, //PASELI: %d
                             { offset: 0x3B278D, off: [0x47, 0xB0, 0x6C, 0x00], on: [0x5B, 0x82, 0x19, 0x05] }, //PASELI: ******
                         ],
+                    },
+                    {
+                        name: "Disable News Sound",
+                        tooltip: "Disables the sound played when news banners appear.",
+                        patches: [
+                            {
+                                offset: 0xAEA508,
+                                off: [0x73, 0x79, 0x73, 0x73, 0x64, 0x5F, 0x6E, 0x65, 0x77, 0x73, 0x5F, 0x63, 0x75, 0x74, 0x69, 0x6E, 0x5F, 0x73, 0x65], // syssd_news_cutin_se
+                                on: [0x73, 0x79, 0x73, 0x73, 0x64, 0x5F, 0x64, 0x75, 0x6D, 0x6D, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00] // syssd_dummy
+                            },
+                        ]
+                    },
+                    {
+                        name: "Increase game volume",
+                        tooltip: "Ignore the in-game volume settings and use the maximum possible volume level. Especially helpful for TDJ which tends to be very quiet.",
+                        patches: [
+                           { offset: 0x8731D5, off: [0xFF, 0x90, 0x98, 0x00, 0x00, 0x00], on: [0x90, 0x90, 0x90, 0x90, 0x90, 0x90] },
+                        ],
+                    },
+                    {
+                        name: "QWERTY keyboard layout for song search",
+                        tooltip: "Changes the touch keyboard layout from alphabetical to QWERTY in song and artist search menu (TDJ only)",
+                        patches: [
+                            {
+                                offset: 0xA92622,
+                                off: [0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x2D], // ABCDEFGHIJKLMNOPQRSTUVWXYZ-
+                                on: [0x51, 0x57, 0x45, 0x52, 0x54, 0x59, 0x55, 0x49, 0x4F, 0x50, 0x41, 0x53, 0x44, 0x46, 0x47, 0x48, 0x4A, 0x4B, 0x4C, 0x2D, 0x5A, 0x58, 0x43, 0x56, 0x42, 0x4E, 0x4D] // QWERTYUIOPASDFGHJKL-ZXCVBNM
+                            },
+                        ]
                     },
                 ]),
             ]);
